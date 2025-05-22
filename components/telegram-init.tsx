@@ -26,7 +26,7 @@ const fallbackUser: TelegramUser = {
 }
 
 interface TelegramInitProps {
-  children: (user: TelegramUser | null, loading: boolean) => React.ReactNode
+  children: React.ReactNode | ((user: TelegramUser | null, loading: boolean) => React.ReactNode)
 }
 
 export function TelegramInit({ children }: TelegramInitProps) {
@@ -67,5 +67,5 @@ export function TelegramInit({ children }: TelegramInitProps) {
     initApp()
   }, [])
 
-  return <>{children(user, loading)}</>
+  return <>{typeof children === "function" ? children(user, loading) : children}</>
 }

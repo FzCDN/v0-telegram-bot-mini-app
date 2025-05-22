@@ -4,10 +4,9 @@ import { Skeleton } from "@/components/ui/skeleton"
 import BottomNavbar from "@/components/bottom-navbar"
 import { MangaGrid } from "@/components/manga-grid"
 import { SearchBar } from "@/components/search-bar"
-import { TelegramInit } from "@/components/telegram-init"
-import { UserProfile } from "@/components/user-profile"
 import { Pagination } from "@/components/pagination"
 import type { MangaApiResponse } from "@/types/manga"
+import TelegramUserWrapper from "@/components/telegram-user-wrapper" // Declare the variable before using it
 
 async function getMangaData(page = 1): Promise<MangaApiResponse> {
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "https://v0-manga-api-clone.vercel.app"
@@ -25,7 +24,8 @@ export default async function HomePage({
 }: {
   searchParams: { page?: string }
 }) {
-  const currentPage = Number(searchParams.page) || 1
+  const page = searchParams.page
+  const currentPage = Number(page) || 1
   const { mangaList, pagination } = await getMangaData(currentPage)
 
   return (
@@ -34,7 +34,7 @@ export default async function HomePage({
         <div className="container max-w-5xl mx-auto px-4">
           <div className="flex justify-between items-center">
             <h1 className="text-xl font-bold text-blue-800 dark:text-blue-400">ManhwaDesu</h1>
-            <TelegramInit>{(user, loading) => <UserProfile user={user} loading={loading} />}</TelegramInit>
+            <TelegramUserWrapper />
           </div>
         </div>
       </header>
@@ -64,6 +64,7 @@ export default async function HomePage({
   )
 }
 
+// Create a client component wrapper for TelegramInit
 function MangaGridSkeleton() {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">

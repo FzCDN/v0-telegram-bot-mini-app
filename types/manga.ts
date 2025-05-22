@@ -46,3 +46,18 @@ export interface MangaDetail {
   genres?: string[]
   chapters: Chapter[]
 }
+
+// New types for chapter reader
+export interface ChapterSource {
+  source: string
+  images: string[]
+}
+
+export interface ChapterData {
+  chapterId: string
+  prev: string | null
+  next: string | null
+  title: string
+  image: string
+  sources: ChapterSource[]
+}
